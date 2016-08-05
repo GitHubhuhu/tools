@@ -92,21 +92,32 @@ docker ps -a 查看所有容器
 
 在正在运行的容器上运行一个命令
 
+>docker rename OLD_NAME NEW_NAME  
+	 
+重命名
+
+>docker version 
+
+查看docker及相关软件版本信息
+	 
+
+下面这些命令还不太懂	 
+
 >network 
 >
 >node 
 >
->rename 
+>stats
 >
 >service 
 >
+>update
+>
 >swarm 
 >
->docker version 
-
-查看docker及相关软件版本信息
-
 >volume
+>
+>create
 
 
 
