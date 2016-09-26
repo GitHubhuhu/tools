@@ -51,6 +51,13 @@ CONTAINER 命令中CONTAINER既可以是id也可以是名字
 
 	docker run -p 主机端口:容器端口 -v 主机目录:容器目录 -d nginx:latest
 	docker run -p 80:80 -v /data:/data -d nginx:latest
+	
+	-v VOLUME 说明：
+		Dockerfile中可以通过 VOLUME ["",""] 来指定多个挂载点，但用这种方式，不能直接指定挂载点对应的主机位置，docker会在/var/lib/docker/volumes/ 创建一个目录或文件来挂载到容器指定的挂载点。
+		-v [主机位置:容器位置] 该命令可以直接将主机和容器的相关位置都指定上。
+		容器运行后，容器挂载点下的所有文件都会与主机的volume数据同步。即如果容器挂载点的文件变化，则宿主机的响应位置也会变化，容器读取挂载点位置的数据时，相当于直接读取主机相对位置的数据。
+		另外：镜像目录下的任何文件都不会被复制到Volume（注意镜像两个字）
+		另外：如果要删除volumes数据，则需要使用 ：docker rm -v 容器
 
 使用镜像nginx:latest以交互模式启动一个容器,在容器内执行/bin/bash命令。
 	
@@ -71,7 +78,14 @@ docker ps -a 查看所有容器
 
 >docker attach CONTAINER
 
+
+
 挂载后台运行的容器,直接跟容器进行交互；直观体检就是登陆了容器的服务器
+
+退出会导致容器停止。
+
+所以如果要登陆容器最好使用：docker exec -it 容器 /bin/bash
+
 
 >docker top CONTAINER
 
@@ -89,6 +103,10 @@ docker ps -a 查看所有容器
 >docker cp CONTAINER:PATH HOSTPATH
 
 把容器内文件复制到主机上
+
+docker cp [OPTIONS] HOSTPATH  CONTAINER:PATH
+
+把主机文件复制到容器
 
 >docker diff CONTAINER
 
@@ -311,3 +329,6 @@ docker ps -a 查看所有容器
 查看私有仓库里的镜像
 
 	curl https://docker.funguide.com.cn/v1/search
+	或者：
+	docker search  docker.funguide.com.cn/
+	这里默认为 https请求.
